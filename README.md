@@ -1,5 +1,7 @@
 # vuejs-websocket
 
+Websocket test with wss://echo.websocket.org
+
 ## Project setup
 ```
 npm install
