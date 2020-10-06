@@ -17,7 +17,6 @@ export default {
   data: function () {
     return {
       notification: false,
-      connection: null,
     };
   },
   created() {
@@ -26,13 +25,13 @@ export default {
   methods: {
     socketConnection() {
       try {
-        this.connection = new WebSocket("wss://backlwe.herokuapp.com");
-        this.connection.onmessage = ({ data }) => {
+        this.$ws = new WebSocket("wss://backlwe.herokuapp.com");
+        this.$ws.onmessage = ({ data }) => {
           this.message = data;
           console.log(data);
           this.showAlert();
         };
-        this.connection.onopen = function (event) {
+        this.$ws.onopen = function (event) {
           console.log(event);
           console.log("Successfully connected to the echo websocket server...");
         };
@@ -44,8 +43,8 @@ export default {
       this.notification = true;
     },
     sendMessage: function (message) {
-      console.log(this.connection);
-      this.connection.send(message);
+      console.log(this.$ws);
+      this.$ws.send(message);
     },
   },
 };
