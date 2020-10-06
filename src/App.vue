@@ -4,7 +4,10 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <button v-on:click="sendMessage('hello')">Send Message</button>
+    <button v-on:click="sendMessage('Probando hptaa')">Send Message</button>
+    <v-snackbar :timeout="4" :value="notification" absolute shaped top>
+      Nuevo mensaje
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -13,23 +16,33 @@ export default {
   components: {},
   data: function () {
     return {
+      notification: false,
       connection: null,
     };
   },
-  created: function () {
-    console.log("Starting connection to WebSocket Server");
-    this.connection = new WebSocket("wss://echo.websocket.org");
-
-    this.connection.onmessage = function (event) {
-      console.log(event);
-    };
-
-    this.connection.onopen = function (event) {
-      console.log(event);
-      console.log("Successfully connected to the echo websocket server...");
-    };
+  created() {
+    this.socketConnection();
   },
   methods: {
+    socketConnection() {
+      try {
+        this.connection = new WebSocket("wss://backlwe.herokuapp.com");
+        this.connection.onmessage = ({ data }) => {
+          this.message = data;
+          console.log(data);
+          this.showAlert();
+        };
+        this.connection.onopen = function (event) {
+          console.log(event);
+          console.log("Successfully connected to the echo websocket server...");
+        };
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    showAlert() {
+      this.notification = true;
+    },
     sendMessage: function (message) {
       console.log(this.connection);
       this.connection.send(message);
