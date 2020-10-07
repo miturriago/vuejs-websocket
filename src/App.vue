@@ -25,7 +25,7 @@ export default {
   methods: {
     socketConnection() {
       try {
-        this.$ws = new WebSocket("wss://backlwe.herokuapp.com");
+        //this.$ws = new WebSocket("wss://backlwe.herokuapp.com");
         this.$ws.onmessage = ({ data }) => {
           this.message = data;
           console.log(data);
