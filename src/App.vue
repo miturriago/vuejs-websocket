@@ -16,6 +16,7 @@ export default {
   components: {},
   data: function () {
     return {
+      variable: "",
       notification: false,
     };
   },
@@ -29,6 +30,8 @@ export default {
         this.$ws.onmessage = ({ data }) => {
           this.message = data;
           console.log(data);
+          this.variable = JSON.parse(data);
+          console.log(this.variable.id);
           this.showAlert();
         };
         this.$ws.onopen = function (event) {
@@ -44,7 +47,7 @@ export default {
     },
     sendMessage: function (message) {
       console.log(this.$ws);
-      this.$ws.send(message);
+      this.$ws.send('{ "name": "Mauricio", "id": [1,2,3] }');
     },
   },
 };
